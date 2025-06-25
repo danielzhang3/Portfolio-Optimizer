@@ -35,7 +35,7 @@ This tool enables users to:
 
 ## Demo Output
 
-- PDF Report: Please see within examples for/portfolio_analysis (1).pdf for a sample of the generated PDF report
+- PDF Report: Please see within the examples/ folder for samples of the generated PDF report
 - Frontend Display: Please refer to the same examples/ folder for screenshots or UI output generated from the frontend
 
 ---
