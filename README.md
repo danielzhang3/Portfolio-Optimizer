@@ -2,6 +2,8 @@
 
 This is a standalone code sample extracted from a larger proprietary project developed as part of a fund administration platform at Black Jade Capital. It is intended for **demonstration purposes only** and showcases select technical components used in portfolio performance analysis.
 
+> Note: This repo contains representative backend components from a larger internal project. It is **not runnable out of the box**, but includes key logic and example outputs to demonstrate project scope and technical design.
+
 ---
 
 ## Overview
