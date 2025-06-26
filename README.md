@@ -48,25 +48,25 @@ All data has been **anonymized**, and no proprietary logic or account-specific i
 
 ## Architecture Note
 
-- In the full project implementation at Black Jade Capital, this portfolio analysis tool operates within a full-stack web application. The actual data flow follows a structured architecture:
+In the full project implementation at Black Jade Capital, this portfolio analysis tool operates within a full-stack web application. The actual data flow follows a structured architecture:
 
-- Frontend (React + TypeScript):
-- Sends API requests to specific backend endpoints such as:
+Frontend (React + TypeScript):
+Sends API requests to specific backend endpoints such as:
   
 - /admin-investor-performance
 - /admin-trade-analysis
 - /admin-portfolio-ath
   
-- Backend View Layer (Django Views):
+Backend View Layer (Django Views):
 - Endpoints like /admin-investor-performance are routed through AdminView classes, which handle authentication and request validation.
 
-- Service Layer (AdminService):
+Service Layer (AdminService):
 - The views delegate business logic to service functions like get_investor_performance() or calculate_portfolio_exposures(), defined in the AdminService class.
 
-- Utility Layer (trade_analysis_utils.py):
+Utility Layer (trade_analysis_utils.py):
 - These service functions call into modular backend utilities such as calculate_what_if_exposure, calculate_options_premiums, or calculate_all_portfolio_aths, which process data and return formatted results.
 
-- Response Handling:
+Response Handling:
 - Results are returned to the frontend as structured JSON and used to render visual dashboards or generate downloadable PDFs.
 
 This repository isolates the core computational logic (trade_analysis_utils.py) and selected frontend display components (frontend_demo/) for demonstration purposes only. It is not runnable out of the box, but illustrates key data transformations and architecture from the broader internal system.
