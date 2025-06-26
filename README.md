@@ -38,7 +38,7 @@ This tool enables users to:
 ## Demo Output
 
 - PDF Report: Please see within the examples/ folder for samples of the generated PDF report
-- Frontend Display: Please refer to the same examples/ folder for screenshots or UI output generated from the frontend
+- Frontend Display: Please refer to the frontend_demo/ folder for samples of the front end display for Trade Analysis, Portfolio Analysis, and Portfolio ATH Analysis
 
 ---
 ## Note
