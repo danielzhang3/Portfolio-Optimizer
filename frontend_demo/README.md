@@ -9,6 +9,15 @@ This folder contains example frontend components built with **React** and **Type
 - `PortfolioAnalysisIndex.tsx`: Renders portfolio exposure metrics for each account
 - `TradeAnalysisPageIndex.tsx`: Displays accumulated options premiums from trade history data
 - `ATHPortfolioIndex.tsx`: Shows all-time-high NAV submissions with evaluation logic
+  
+## Screenshots
+
+- `Portfolio Analysis FrontEnd.png`  
+- `Trade Analysis FrontEnd.png`  
+- `Portfolio ATH FrontEnd.png`
+
+> Refer to these images for a visual representation of the components in a deployed frontend application.
+
 
 ---
 
