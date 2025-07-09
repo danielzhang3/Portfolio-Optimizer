@@ -6,9 +6,6 @@ from django.db import transaction
 from api.models import Trade_History
 
 def parse_raw_ibkr(filename: str) -> List[Dict[str, Any]]:
-    """
-    Parses raw IBKR CSV file with correct column alignment.
-    """
     parsed_orders = []
 
     with open(filename, newline='', encoding='utf-8-sig') as f:
@@ -18,14 +15,12 @@ def parse_raw_ibkr(filename: str) -> List[Dict[str, Any]]:
             if not row:
                 continue
 
-            # Detect header
             if row[0] == 'Trades' and row[1] == 'Header' and row[2] == 'DataDiscriminator':
                 header_found = True
                 continue
 
             if header_found and row[0] == 'Trades' and row[1] == 'Data' and row[2] == 'Order':
                 try:
-                    # Skip first 6 columns (Asset Category, Currency, Symbol, etc.)
                     symbol = row[5].strip()
                     date_str = row[6].split(',')[0].strip()
                     date = datetime.strptime(date_str, '%Y-%m-%d').date()
@@ -60,9 +55,6 @@ def parse_raw_ibkr(filename: str) -> List[Dict[str, Any]]:
     return parsed_orders
 
 def import_trades_from_csv(filename: str, account_id: int) -> Dict[str, Any]:
-    """
-    Import trades from a raw IBKR CSV file into the Trade_History model.
-    """
     try:
         trades = parse_raw_ibkr(filename)
         
