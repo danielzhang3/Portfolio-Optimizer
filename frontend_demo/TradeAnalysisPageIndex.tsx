@@ -11,7 +11,6 @@ import Pagination from "@/admin_components/common/pagination";
 import { PuffLoader } from "react-spinners";
 import { CloudArrowDownIcon } from "@/admin_components/icons";
 
-// Utility function to format numbers with commas
 const numberWithCommas = (value: number | string) => {
   if (value === undefined || value === null) return "0";
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -34,7 +33,7 @@ const TradeAnalysis = () => {
 
   useEffect(() => {
     getTradeAnalysis({
-      body: JSON.stringify({ percentageUp: 5, percentageDown: 5 }), // ✅ Ensure request body is sent
+      body: JSON.stringify({ percentageUp: 5, percentageDown: 5 }), 
     });
   }, []);
 
@@ -44,16 +43,14 @@ const TradeAnalysis = () => {
     }
   }, [error]);
 
-  console.log("DEBUG: API Response", response?.data); // ✅ Debug API response
+  console.log("DEBUG: API Response", response?.data); 
 
   const tradeData = response?.data?.portfolio_premiums || [];
 
-  // Filter trades by Account ID (if search value is provided)
   const filteredTrades = tradeData
     .filter((trade) =>
       searchValue ? trade.account_id?.toString().includes(searchValue) : true
     )
-    // Sort trades by account ID in increasing order
     .sort((a, b) => Number(a.account_id) - Number(b.account_id));
 
   const paginatedTrades = filteredTrades.slice(
@@ -75,17 +72,14 @@ const TradeAnalysis = () => {
     const pdf = new jsPDF("l", "mm", "a4");
     const pageWidth = pdf.internal.pageSize.getWidth();
   
-    // Use Times New Roman font
     pdf.setFont("times", "normal");
-  
-    // Logo and Cover Page
+
     const logo = "/assets/image/logo.png";
     const imgWidth = 50;
     const imgHeight = 50;
     const xPositionLogo = (pageWidth - imgWidth) / 2;
     pdf.addImage(logo, "PNG", xPositionLogo, 50, imgWidth, imgHeight);
   
-    // Title and Date on Cover Page
     pdf.setFontSize(20);
     pdf.setFont("times", "bold");
     pdf.text("Trade Analysis Report", pageWidth / 2, 120, { align: "center" });
@@ -93,10 +87,8 @@ const TradeAnalysis = () => {
     pdf.setFontSize(14);
     pdf.text(`Generated on: ${currentDate}`, pageWidth / 2, 140, { align: "center" });
   
-    // Add a new page for the tables
     pdf.addPage();
   
-    // Extract Table Data from the HTML table
     const rows = Array.from(input.getElementsByTagName("tr"));
     const headers = rows[0].getElementsByTagName("th");
     const headersArray = Array.from(headers).map(header => header.innerText.trim());
@@ -104,7 +96,6 @@ const TradeAnalysis = () => {
       Array.from(row.getElementsByTagName("td")).map(cell => cell.innerText.trim())
     );
   
-    // Our on-screen table has 18 columns, which we'll split into two tables.
     const generalTradeColumns = [0, 1, 2, 3, 4, 5, 6, 7];
     const profitLossColumns = [0, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
   
@@ -160,7 +151,6 @@ const TradeAnalysis = () => {
   return (
     <div className="ring-1 ring-borderColor bg-white p-4 md:p-7 pb-[10px] md:pb-[10px] rounded-[10px] min-h-[50vh]">
       <div className="flex justify-between items-center mb-8 gap-5">
-        {/* Search by Account ID */}
         <div className="basis-[100%] md:basis-[33.33%]">
           <SearchBar
             value={searchValue}
@@ -169,7 +159,6 @@ const TradeAnalysis = () => {
           />
         </div>
 
-        {/* PDF Download Button */}
         <div>
           <CustomButton
             variantType="filled"
@@ -181,7 +170,6 @@ const TradeAnalysis = () => {
         </div>
       </div>
 
-      {/* Trade Analysis Table */}
       <div className="theme-table">
         <table id="tradeAnalysisTable">
           <thead className="sticky top-0 z-20">
@@ -254,7 +242,6 @@ const TradeAnalysis = () => {
         </table>
       </div>
 
-      {/* Pagination */}
       <div className="pt-[10px]">
         <Pagination
           currentPage={currentPage}
