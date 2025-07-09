@@ -12,7 +12,6 @@ import { CloudArrowDownIcon } from "@/admin_components/icons";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 
-// Utility function to format numbers with commas
 const numberWithCommas = (value: number | string) => {
   if (value === undefined || value === null) return "0";
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -65,9 +64,7 @@ const Portfolios = () => {
     setter(value ? Number(value) : undefined);
   };
 
-  // Get the portfolio exposures array from the backend response.
   const portfolios = response?.data?.portfolio_exposures || [];
-  // Sort the portfolios by account_id (ascending order).
   const sortedPortfolios = [...portfolios].sort(
     (a, b) => Number(a.account_id) - Number(b.account_id)
   );
@@ -85,7 +82,6 @@ const Portfolios = () => {
     setCurrentPage(pageNumber);
   };
 
-  // Generate PDF function for Portfolios
   const handleDownloadPDF = () => {
     const input = document.getElementById("portfolioTable");
     if (!input) return;
@@ -93,17 +89,14 @@ const Portfolios = () => {
     const pdf = new jsPDF("l", "mm", "a4");
     const pageWidth = pdf.internal.pageSize.getWidth();
 
-    // Use Times New Roman font
     pdf.setFont("times", "normal");
 
-    // Logo and Cover Page
     const logo = "/assets/image/logo.png";
     const imgWidth = 50;
     const imgHeight = 50;
     const xPositionLogo = (pageWidth - imgWidth) / 2;
     pdf.addImage(logo, "PNG", xPositionLogo, 50, imgWidth, imgHeight);
 
-    // Title and Date on Cover Page
     pdf.setFontSize(20);
     pdf.setFont("times", "bold");
     pdf.text("Portfolio Analysis Report", pageWidth / 2, 120, { align: "center" });
@@ -111,10 +104,8 @@ const Portfolios = () => {
     pdf.setFontSize(14);
     pdf.text(`Generated on: ${currentDate}`, pageWidth / 2, 140, { align: "center" });
 
-    // Add a new page for the tables
     pdf.addPage();
 
-    // Extract Table Data from the HTML table
     const rows = Array.from(input.getElementsByTagName("tr"));
     const headers = rows[0].getElementsByTagName("th");
     const headersArray = Array.from(headers).map(header => header.innerText.trim());
@@ -122,7 +113,6 @@ const Portfolios = () => {
       Array.from(row.getElementsByTagName("td")).map(cell => cell.innerText.trim())
     );
 
-    // Split the on-screen table columns into two sets.
     const firstTableColumns = [0, 1, 2, 3, 4];
     const secondTableColumns = [5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -135,7 +125,6 @@ const Portfolios = () => {
     const { newHeaders: firstHeaders, newData: firstData } = extractColumns(firstTableColumns);
     const { newHeaders: secondHeaders, newData: secondData } = extractColumns(secondTableColumns);
 
-    // Update headers for the second table.
     secondHeaders[3] = `ITM Contracts (under ${expirationThreshold}d)`;
     secondHeaders[4] = `Exposure (under ${expirationThreshold}d)`;
     secondHeaders[5] = `ITM Contracts (over ${expirationThreshold}d)`;
@@ -184,7 +173,6 @@ const Portfolios = () => {
   return (
     <div className="ring-1 ring-borderColor bg-white p-4 md:p-7 rounded-[10px] min-h-[50vh]">
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-5">
-        {/* Search by Account ID */}
         <div className="basis-[100%] md:basis-[33.33%]">
           <SearchBar
             value={searchValue}
@@ -193,7 +181,6 @@ const Portfolios = () => {
           />
         </div>
 
-        {/* Input Fields for Exposure and Expiration Threshold */}
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -201,7 +188,6 @@ const Portfolios = () => {
           }}
           className="flex flex-col md:flex-row items-center gap-2"
         >
-          {/* Upward Exposure Input */}
           <div className="flex items-center gap-1 border border-black rounded-md p-1">
             <AiOutlineArrowUp className="text-green-500 text-lg" />
             <label htmlFor="percentageUp" className="text-xs font-medium text-gray-700">
@@ -217,7 +203,6 @@ const Portfolios = () => {
             />
           </div>
 
-          {/* Downward Exposure Input */}
           <div className="flex items-center gap-1 border border-black rounded-md p-1">
             <AiOutlineArrowDown className="text-red-500 text-lg" />
             <label htmlFor="percentageDown" className="text-xs font-medium text-gray-700">
@@ -233,7 +218,6 @@ const Portfolios = () => {
             />
           </div>
 
-          {/* Expiration Threshold Input */}
           <div className="flex items-center gap-1 border border-black rounded-md p-1">
             <label htmlFor="expirationThreshold" className="text-xs font-medium text-gray-700">
               Contract Expiration Threshold (days):
@@ -248,13 +232,11 @@ const Portfolios = () => {
             />
           </div>
 
-          {/* Submit Button */}
           <CustomButton variantType="filled" className="mt-2" onClick={generateNewValues}>
             Submit
           </CustomButton>
         </form>
 
-        {/* PDF Download Button */}
         <div>
           <CustomButton variantType="filled" rightIcon={<CloudArrowDownIcon />} onClick={handleDownloadPDF}>
             Download as PDF
@@ -262,7 +244,6 @@ const Portfolios = () => {
         </div>
       </div>
 
-      {/* Portfolio Table */}
       <div className="theme-table">
         <table id="portfolioTable">
           <thead className="sticky top-0 z-20">
@@ -321,7 +302,6 @@ const Portfolios = () => {
         </table>
       </div>
 
-      {/* Pagination */}
       <div className="pt-[10px]">
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </div>
