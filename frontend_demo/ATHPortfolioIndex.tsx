@@ -74,7 +74,6 @@ const PortfolioATH = () => {
     })
       .then(() => {
         toast.success("ATH info submitted successfully.");
-        // Refresh dashboard data to get updated ATH submissions and calculations from the backend
         fetchDashboardData();
       })
       .catch(() => {
@@ -217,13 +216,10 @@ const PortfolioATH = () => {
 
   return (
     <div className="ring-1 ring-borderColor bg-white p-4 md:p-7 rounded-[10px] min-h-[50vh]">
-      {/* Container holding the submission form and the download PDF button side-by-side */}
       <div className="mb-8 flex flex-col md:flex-row gap-4">
-        {/* Submission Form Container (Black Box) */}
         <div className="flex-1 p-4 border border-gray-300 rounded-md">
           <h2 className="text-lg font-bold mb-4">Submit Portfolio All-Time-High Information</h2>
           <form onSubmit={handleSubmitATHInfo} className="flex flex-col md:flex-row gap-4 items-center">
-            {/* Portfolio ATH Value Input */}
             <div className="flex flex-col">
               <label htmlFor="athValue" className="text-xs font-medium text-gray-700">
                 Portfolio ATH Value:
@@ -237,7 +233,6 @@ const PortfolioATH = () => {
                 className="p-1 border border-gray-400 rounded-md"
               />
             </div>
-            {/* Date Input */}
             <div className="flex flex-col">
               <label htmlFor="athDate" className="text-xs font-medium text-gray-700">
                 ATH Date:
@@ -250,7 +245,6 @@ const PortfolioATH = () => {
                 className="p-1 border border-gray-400 rounded-md"
               />
             </div>
-            {/* Current NAV Input */}
             <div className="flex flex-col">
               <label htmlFor="currentNAV" className="text-xs font-medium text-gray-700">
                 Current NAV:
@@ -264,7 +258,6 @@ const PortfolioATH = () => {
                 className="p-1 border border-gray-400 rounded-md"
               />
             </div>
-            {/* Account ID Input */}
             <div className="flex flex-col">
               <label htmlFor="accountId" className="text-xs font-medium text-gray-700">
                 Account ID:
@@ -278,13 +271,11 @@ const PortfolioATH = () => {
                 className="p-1 border border-gray-400 rounded-md"
               />
             </div>
-            {/* Submit Button */}
             <CustomButton variantType="filled" type="submit">
               Submit
             </CustomButton>
           </form>
         </div>
-        {/* Download PDF Button Container (Outside the Black Box) */}
         <div className="flex items-center">
           <CustomButton
             variantType="filled"
@@ -297,11 +288,8 @@ const PortfolioATH = () => {
         </div>
       </div>
 
-      {/* Render Combined Portfolio All Time High Analysis Table */}
       {renderPortfolioAllTimeHighAnalysis()}
 
-      {/* Pagination (if needed for positions) */}
-      {/* <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} /> */}
     </div>
   );
 };
