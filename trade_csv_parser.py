@@ -5,10 +5,6 @@ from django.db import transaction
 from api.models import Trade
 
 def parse_ibkr_trades(filename: str) -> List[Dict[str, Any]]:
-    """
-    Parses IBKR Open Positions CSV file into a list of trades.
-    Uses Close Price instead of Cost Price.
-    """
     parsed_trades = []
 
     with open(filename, newline='', encoding='utf-8-sig') as f:
@@ -26,7 +22,7 @@ def parse_ibkr_trades(filename: str) -> List[Dict[str, Any]]:
                 try:
                     symbol = row[5].strip()
                     quantity = int(float(row[6].strip()))
-                    price = Decimal(row[10].strip().replace(',', '')) if row[10].strip() else Decimal('0')  # Close Price
+                    price = Decimal(row[10].strip().replace(',', '')) if row[10].strip() else Decimal('0')  
                     market_value = Decimal(row[11].strip().replace(',', '')) if row[11].strip() else Decimal('0')
                     cost_basis = Decimal(row[9].strip().replace(',', '')) if row[9].strip() else Decimal('0')
                     gain_loss = Decimal(row[13].strip().replace(',', '')) if row[13].strip() else Decimal('0')
@@ -47,11 +43,6 @@ def parse_ibkr_trades(filename: str) -> List[Dict[str, Any]]:
     return parsed_trades
 
 def parse_schwab_trades(filename: str) -> List[Dict[str, Any]]:
-    """
-    Parses Schwab Positions CSV file into a list of trades.
-    Skips initial metadata lines and uses the correct header row.
-    Special handling for Cash & Cash investments.
-    """
     parsed_trades = []
 
     with open(filename, newline='', encoding='utf-8-sig') as f:
@@ -92,7 +83,6 @@ def parse_schwab_trades(filename: str) -> List[Dict[str, Any]]:
                 parsed_trades.append(trade_dict)
                 continue
 
-            # Normal trade processing
             quantity = int(float(row[2].replace(',', '')))
             price = Decimal(row[3].replace(',', '').replace('$', ''))
             market_value = Decimal(row[6].replace(',', '').replace('$', ''))
@@ -115,15 +105,6 @@ def parse_schwab_trades(filename: str) -> List[Dict[str, Any]]:
     return parsed_trades
 
 def import_trades_from_csv(filename: str, account_id: int, csv_type: str) -> Dict[str, Any]:
-    """
-    Imports trades into the Trade model from a CSV file.
-    Args:
-        filename (str): Path to the CSV file.
-        account_id (int): Account ID to assign trades.
-        csv_type (str): 'ibkr' or 'schwab' indicating the CSV format.
-    Returns:
-        dict: Summary of the import process.
-    """
     try:
         if csv_type.lower() == 'ibkr':
             trades = parse_ibkr_trades(filename)
